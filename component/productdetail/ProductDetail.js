@@ -8,7 +8,9 @@ const ProductDetail = ({ route }) => {
     <View style={styles.container}>
       <Image source={{ uri: product.image }} style={styles.image} />
       <Text style={styles.productName}>{product.title}</Text>
+      <Text style={styles.productCategory}>{`${product.Category}`}</Text>
       <Text style={styles.productPrice}>{`$${product.price}`}</Text>
+
       <Text style={styles.productDescription}>{product.description}</Text>
     </View>
   );

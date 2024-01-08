@@ -10,30 +10,48 @@ import ProductDetail from "./component/productdetail/ProductDetail";
 import ProductCart from "./component/cart/ProductCart";
 import Footer from "./component/home/Footer";
 import Menu from "./component/home/Menu";
-import CategoryIcon from "./component/home/CategoryIcon";
+import Login from "./component/login/Login";
+
 const Stack = createStackNavigator();
 
 const App = () => {
-  
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="NLD-MARKET">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="ProductDetail" component={ProductDetail} />
-        <Stack.Screen name="ProductCart" component={ProductCart} />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            headerTitleStyle: { color: "red" },
+          }}
+        />
+        <Stack.Screen
+          name="ProductDetail"
+          component={ProductDetail}
+          options={{
+            headerTitleStyle: { color: "red" },
+          }}
+        />
+        <Stack.Screen
+          name="ProductCart"
+          component={ProductCart}
+          options={{
+            headerTitleStyle: { color: "red" },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-
 const HomeScreen = () => (
   <View style={styles.container}>
     <Header />
     <Menu />
-    {/* <CategoryIcon/> */}
+    {/* <CategoryIcon /> */}
     <Slider />
     <Content />
     <Footer />
+    {/* <Login/> */}
   </View>
 );
 

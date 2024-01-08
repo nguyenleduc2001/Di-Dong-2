@@ -1,26 +1,40 @@
-// Header.js
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   TouchableOpacity,
   StatusBar,
-  useState,
   TextInput,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import ProductCart from "../cart/ProductCart";
-// const { addcart } = route.params || {};
+import ProductListDynamic from "../home/Content"; // Cập nhật đường dẫn
+
 const Stack = createStackNavigator();
+const AppNavigator = () => {
+  return (
+    <Stack.Navigator>
+      {/* Other screens */}
+      <Stack.Screen name="ProductList" component={ProductListDynamic} />
+    </Stack.Navigator>
+  );
+};
 const Header = () => {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
+
   const handleCartPress = () => {
     navigation.navigate("ProductCart");
   };
+
+  const handleSearch = () => {
+    // Bạn có thể thêm logic ở đây để xử lý hành động tìm kiếm
+    // Ví dụ, bạn có thể chuyển hướng đến danh sách sản phẩm với searchQuery
+    navigation.navigate("ProductList", { searchQuery });
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -29,20 +43,12 @@ const Header = () => {
         barStyle="dark-content"
       />
       <View style={styles.header}>
-        <View style={styles.inputContainer}>
-          <Icon
-            name="search"
-            size={18}
-            color="black"
-            style={styles.searchIcon}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Bạn cần tìm gì hôm nay?"
-            placeholderTextColor="gray"
-            onChangeText={(text) => setSearchQuery(text)}
-          />
-        </View>
+        NLD-MARKET--
+        Hãy checkin tại đây
+        <TouchableOpacity onPress={() => console.log("Map pressed")}>
+          
+          <Icon name="map" size={20} color="black" style={styles.icon} />
+        </TouchableOpacity>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={() => console.log("Person pressed")}>
             <Icon name="user" size={20} color="black" style={styles.icon} />
@@ -60,16 +66,6 @@ const Header = () => {
     </View>
   );
 };
-
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="addcart">
-        <Stack.Screen name="ProductCart" component={ProductCart} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
 const styles = StyleSheet.create({
   container: {
     width: "100%",
@@ -79,7 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 10, // Tăng giá trị paddingVertical lên
+    padding: 10,
   },
   inputContainer: {
     flex: 1,
