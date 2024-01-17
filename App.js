@@ -10,8 +10,9 @@ import ProductDetail from "./component/productdetail/ProductDetail";
 import ProductCart from "./component/cart/ProductCart";
 import Footer from "./component/home/Footer";
 import Menu from "./component/home/Menu";
-import Login from "./component/login/Login";
-
+  import Login from "./component/login/Login";
+  import Register from "./component/register/register";
+import Profile from "./component/profile/profile";
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -39,13 +40,34 @@ const App = () => {
             headerTitleStyle: { color: "red" },
           }}
         />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerTitleStyle: { color: "red" },
+          }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{
+            headerTitleStyle: { color: "red" },
+          }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            headerTitleStyle: { color: "red" },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 const HomeScreen = () => (
   <View style={styles.container}>
-    <Header />
+    <Header  />
     <Menu />
     {/* <CategoryIcon /> */}
     <Slider />

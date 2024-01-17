@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
     height: 180,
     width: 180,
     zIndex: 1,
-    // Tăng giá trị để làm cho khung lớn hơn
   },
   image: {
     width: "50%",

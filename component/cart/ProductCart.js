@@ -73,7 +73,6 @@ const ProductCart = ({ route }) => {
       setProductQuantities(updatedQuantities);
       saveProductQuantities(updatedQuantities);
     } else {
-      // Sản phẩm chưa có trong giỏ hàng
       const updatedCart = [...cartItems, { ...addcart, quantity: 1 }];
       setCartItems(updatedCart);
       saveCartItems(updatedCart);
@@ -92,7 +91,7 @@ const ProductCart = ({ route }) => {
     saveCartItems(updatedCart);
 
     const updatedQuantities = { ...productQuantities };
-    updatedQuantities[cartItems[index].id] = 0; // Reset quantity when removing
+    updatedQuantities[cartItems[index].id] = 0; 
     setProductQuantities(updatedQuantities);
     saveProductQuantities(updatedQuantities);
   };

@@ -14,9 +14,16 @@ const Footer = () => {
     }
   }, [reloadApp]);
 
+  // Function to handle the "Trang Chủ" (Home) button press
   const handleHomePress = () => {
     // Set the reloadApp state to true when the "Trang Chủ" button is pressed
     setReloadApp(true);
+  };
+
+  // Function to handle the "Tôi" (Me) button press
+  const handleProfilePress = () => {
+    // Navigate to the profile screen
+    navigation.navigate("Profile"); // Replace "Profile" with the actual name of your profile screen
   };
 
   return (
@@ -38,10 +45,10 @@ const Footer = () => {
         <Icon name="bell" size={20} color="#000000" />
         <Text>Thông Báo</Text>
       </View>
-      <View style={styles.footer1}>
+      <TouchableOpacity style={styles.footer1} onPress={handleProfilePress}>
         <Icon name="grid" size={20} color="#000000" />
         <Text>Tôi</Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -65,6 +72,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
 
 export default Footer;
