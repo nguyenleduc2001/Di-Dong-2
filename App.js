@@ -10,9 +10,10 @@ import ProductDetail from "./component/productdetail/ProductDetail";
 import ProductCart from "./component/cart/ProductCart";
 import Footer from "./component/home/Footer";
 import Menu from "./component/home/Menu";
-  import Login from "./component/login/Login";
-  import Register from "./component/register/register";
+import Login from "./component/login/Login";
+import Register from "./component/register/register";
 import Profile from "./component/profile/profile";
+import PaymentPage from "./component/payment/paymentPage"
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -57,6 +58,13 @@ const App = () => {
         <Stack.Screen
           name="Profile"
           component={Profile}
+          options={{
+            headerTitleStyle: { color: "red" },
+          }}
+        />
+        <Stack.Screen
+          name="PaymentPage"
+          component={PaymentPage}
           options={{
             headerTitleStyle: { color: "red" },
           }}

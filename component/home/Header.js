@@ -64,9 +64,6 @@ const Header = () => {
       />
       <View style={styles.header}>
         NLD-MARKET-- Hãy checkin tại đây
-        {/* <TouchableOpacity onPress={handleMap}>
-          <Icon name="map" size={20} color="black" style={styles.icon} />
-        </TouchableOpacity> */}
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={handlePersonPress}>
             <Icon name="user" size={20} color="black" style={styles.icon} />

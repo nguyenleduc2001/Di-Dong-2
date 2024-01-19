@@ -12,17 +12,16 @@ import { useNavigation } from "@react-navigation/native";
 import fb from "../../public/images/fb.png";
 import gg from "../../public/images/gg.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import users from "../data/dataLogin";
 const Login = () => {
   const navigation = useNavigation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorText, setErrorText] = useState("");
 
   const handleLogin = async () => {
     try {
       if (username !== "" && password !== "") {
-        const response = await fetch("https://fakestoreapi.com/users");
-        const users = await response.json();
-
         const user = users.find(
           (u) => u.username === username && u.password === password
         );
@@ -34,14 +33,14 @@ const Login = () => {
           // Chuyển hướng đến màn hình Home
           navigation.navigate("Home");
         } else {
-          Alert.alert("Đăng nhập sai!!");
+          setErrorText("Đăng nhập sai!!");
         }
       } else {
-        Alert.alert("Vui lòng nhập tài khoản và mật khẩu");
+        setErrorText("Vui lòng nhập tài khoản và mật khẩu");
       }
     } catch (error) {
-      console.error("Error fetching user data", error);
-      Alert.alert("Đã xảy ra lỗi khi đăng nhập");
+      console.error("Error reading dataLogin.js", error);
+      setErrorText("Đã xảy ra lỗi khi đăng nhập");
     }
   };
 
@@ -71,6 +70,7 @@ const Login = () => {
           onChangeText={(text) => setPassword(text)}
         />
       </View>
+      {errorText !== "" && <Text style={styles.errorText}>{errorText}</Text>}
       <Text style={styles.registerText}>
         Bạn chưa có tài khoản? Đăng ký ngay
       </Text>
@@ -163,6 +163,10 @@ const styles = StyleSheet.create({
   socialIcon: {
     height: 30,
     width: 30,
+  },
+  errorText: {
+    color: "red",
+    marginTop: 10,
   },
 });
 

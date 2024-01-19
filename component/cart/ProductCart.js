@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
 
-const ProductCart = ({ route }) => {
+const ProductCart = ({ route, navigation }) => {
   const { addcart } = route.params || {};
   const [cartItems, setCartItems] = useState([]);
   const [productQuantities, setProductQuantities] = useState({});
@@ -82,8 +82,8 @@ const ProductCart = ({ route }) => {
       setProductQuantities(updatedQuantities);
       saveProductQuantities(updatedQuantities);
     }
-  };
 
+    };
   const removeFromCart = (index) => {
     const updatedCart = [...cartItems];
     updatedCart.splice(index, 1);
@@ -91,7 +91,7 @@ const ProductCart = ({ route }) => {
     saveCartItems(updatedCart);
 
     const updatedQuantities = { ...productQuantities };
-    updatedQuantities[cartItems[index].id] = 0; 
+    updatedQuantities[cartItems[index].id] = 0;
     setProductQuantities(updatedQuantities);
     saveProductQuantities(updatedQuantities);
   };
@@ -109,6 +109,25 @@ const ProductCart = ({ route }) => {
       updatedQuantities[productId] -= 1;
       setProductQuantities(updatedQuantities);
       saveProductQuantities(updatedQuantities);
+    }
+  };
+
+  // Function to navigate to the "PaymentPage"
+ const PaymentPage = async () => {
+   // Chuyển hướng đến trang PaymentPage
+   navigation.navigate("PaymentPage");
+
+   // Xử lý giỏ hàng sau khi đặt hàng thành công
+   await clearCart();
+ };
+  const clearCart = async () => {
+    try {
+      await AsyncStorage.setItem("cartItems", JSON.stringify([]));
+      await AsyncStorage.setItem("productQuantities", JSON.stringify({}));
+      setCartItems([]);
+      setProductQuantities({});
+    } catch (error) {
+      console.error("Error clearing cart", error);
     }
   };
 
@@ -165,7 +184,7 @@ const ProductCart = ({ route }) => {
         </Text>
         <TouchableOpacity
           style={styles.checkoutButton}
-          onPress={() => console.log("Nút Thanh toán được nhấn")}
+          onPress={() => PaymentPage()}
         >
           <Text style={styles.checkoutButtonText}>Thanh Toán</Text>
         </TouchableOpacity>

@@ -1,99 +1,123 @@
 import React, { useState } from "react";
 import {
   View,
+  Text,
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Text,
+  Modal,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Register = ({ navigation }) => {
+const Register = ({ route, navigation }) => {
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
 
-  const handleRegister = async () => {
-    try {
-      // Kiểm tra xem có bất kỳ trường nào trống không
-      if (!username || !email || !phone || !address || !password) {
-        console.log("Vui lòng điền đầy đủ thông tin đăng ký");
-        return;
-      }
+  const validateInputs = () => {
+    let isValid = true;
 
-      // Kiểm tra xem email đã được sử dụng chưa (giả sử email là duy nhất)
-      const response = await fetch("https://fakestoreapi.com/users");
-      const users = await response.json();
-      const emailExists = users.some((user) => user.email === email);
+    if (!username) {
+      setUsernameError("Vui lòng nhập tên người dùng");
+      isValid = false;
+    } else {
+      setUsernameError("");
+    }
 
-      if (emailExists) {
-        console.log("Email đã được sử dụng");
-        // Xử lý hiển thị thông báo lỗi
-        return;
-      }
+    if (!password) {
+      setPasswordError("Vui lòng nhập mật khẩu");
+      isValid = false;
+    } else {
+      setPasswordError("");
+    }
 
-      // Tạo một đối tượng người dùng mới
-      const newUser = {
+    // Validate email format (you can use a more advanced email validation regex)
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError("Vui lòng nhập địa chỉ email hợp lệ");
+      isValid = false;
+    } else {
+      setEmailError("");
+    }
+
+    return isValid;
+  };
+
+  const handleRegistration = () => {
+    if (validateInputs()) {
+      // Handle user registration logic here
+      console.log("User registered successfully:", {
         username,
-        email,
-        phone,
-        address,
         password,
-      };
+        email,
+      });
+      
 
-      await AsyncStorage.setItem("loggedInUser", JSON.stringify(newUser));
+      // Display registration success message
+      setIsRegistrationSuccess(true);
 
-      // Chuyển hướng đến trang Home sau khi đăng ký thành công
-      navigation.navigate("Home");
-    } catch (error) {
-      console.error("Lỗi khi đăng ký", error);
-      // Xử lý hiển thị thông báo lỗi
+      // You can navigate to another screen or take any other actions after successful registration
+      // For simplicity, navigate back to the login screen after a delay
+      setTimeout(() => {
+        setIsRegistrationSuccess(false);
+        navigation.navigate("Home");
+      }, 2000); // 2-second delay (adjust as needed)
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Đăng Ký</Text>
+      <Text style={styles.header}>Đăng Ký</Text>
+
       <View style={styles.inputContainer}>
+        <Text style={styles.label}>Tên người dùng:</Text>
         <TextInput
           style={styles.input}
-          placeholder="Tên người dùng"
           value={username}
           onChangeText={(text) => setUsername(text)}
         />
+        <Text style={styles.errorText}>{usernameError}</Text>
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Mật khẩu:</Text>
         <TextInput
           style={styles.input}
-          placeholder="Email"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Số điện thoại"
-          keyboardType="phone-pad"
-          value={phone}
-          onChangeText={(text) => setPhone(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Địa chỉ"
-          value={address}
-          onChangeText={(text) => setAddress(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Mật khẩu"
-          secureTextEntry
           value={password}
           onChangeText={(text) => setPassword(text)}
+          secureTextEntry
         />
+        <Text style={styles.errorText}>{passwordError}</Text>
       </View>
-      <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Đăng Ký</Text>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Email:</Text>
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+          keyboardType="email-address"
+        />
+        <Text style={styles.errorText}>{emailError}</Text>
+      </View>
+
+      <TouchableOpacity
+        style={styles.registerButton}
+        onPress={handleRegistration}
+      >
+        <Text style={styles.registerButtonText}>Đăng Ký</Text>
       </TouchableOpacity>
+
+      {/* Registration success modal */}
+      <Modal visible={isRegistrationSuccess} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Đăng ký thành công!</Text>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -101,41 +125,57 @@ const Register = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#3498DB",
+    padding: 16,
   },
-  title: {
-    fontSize: 36,
+  header: {
+    fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
-    color: "#FFF",
+    marginBottom: 16,
   },
   inputContainer: {
-    width: "80%",
-    marginBottom: 20,
+    marginBottom: 16,
+  },
+  label: {
+    fontSize: 18,
+    marginBottom: 8,
   },
   input: {
-    height: 50,
-    color: "#333",
-    textAlign: "center",
+    height: 40,
+    borderColor: "gray",
     borderWidth: 1,
-    marginBottom: 15,
-    backgroundColor: "#FFF",
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    fontSize: 16,
+    borderRadius: 8,
+    padding: 8,
   },
   registerButton: {
-    backgroundColor: "#FFF",
-    padding: 15,
-    borderRadius: 10,
+    backgroundColor: "blue",
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 16,
+    alignItems: "center",
   },
-  buttonText: {
-    color: "#3498DB",
+  registerButtonText: {
+    color: "white",
+    fontSize: 16,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  modalText: {
     fontSize: 18,
-    textAlign: "center",
     fontWeight: "bold",
+  },
+  errorText: {
+    color: "red",
+    marginTop: 4,
   },
 });
 
