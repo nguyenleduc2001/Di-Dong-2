@@ -20,6 +20,7 @@ const Login = () => {
   const [errorText, setErrorText] = useState("");
 
   const handleLogin = async () => {
+    //này bẫy lỗi luôn
     try {
       if (username !== "" && password !== "") {
         const user = users.find(
@@ -28,7 +29,7 @@ const Login = () => {
 
         if (user) {
           // Lưu trạng thái đăng nhập vào AsyncStorage
-          await AsyncStorage.setItem("isLoggedIn", "true");
+          await AsyncStorage.setItem("dataLogin", "true");
 
           // Chuyển hướng đến màn hình Home
           navigation.navigate("Home");

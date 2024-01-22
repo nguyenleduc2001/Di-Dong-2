@@ -176,13 +176,13 @@ const styles = StyleSheet.create({
   categoryButton: {
     padding: 10,
     backgroundColor: "#ddd",
-    borderRadius: 20, 
-    overflow: "hidden", 
+    borderRadius: 20,
+    overflow: "hidden",
   },
   selectedCategoryButton: {
-    backgroundColor: "blue", 
-    borderRadius: 20, 
-    overflow: "hidden", 
+    backgroundColor: "blue",
+    borderRadius: 20,
+    overflow: "hidden",
   },
 });
 

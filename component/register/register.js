@@ -17,7 +17,10 @@ const Register = ({ route, navigation }) => {
   const [emailError, setEmailError] = useState("");
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
 
+
+  // khối mã lệnh để nhập dữ liệu
   const validateInputs = () => {
+    /// khúc nưới nàyy bẫy lỗi
     let isValid = true;
 
     if (!username) {
@@ -34,7 +37,7 @@ const Register = ({ route, navigation }) => {
       setPasswordError("");
     }
 
-    // Validate email format (you can use a more advanced email validation regex)
+    
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setEmailError("Vui lòng nhập địa chỉ email hợp lệ");
       isValid = false;
@@ -47,23 +50,17 @@ const Register = ({ route, navigation }) => {
 
   const handleRegistration = () => {
     if (validateInputs()) {
-      // Handle user registration logic here
       console.log("User registered successfully:", {
         username,
         password,
         email,
       });
-      
-
-      // Display registration success message
       setIsRegistrationSuccess(true);
-
-      // You can navigate to another screen or take any other actions after successful registration
-      // For simplicity, navigate back to the login screen after a delay
+      // set thời giann 2000
       setTimeout(() => {
         setIsRegistrationSuccess(false);
         navigation.navigate("Home");
-      }, 2000); // 2-second delay (adjust as needed)
+      }, 2000); 
     }
   };
 
